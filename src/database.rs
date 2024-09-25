@@ -1,4 +1,4 @@
-use crate::task::Task;
+use crate::task::{Status, Task};
 use chrono::Utc;
 use std::path::Path;
 
@@ -11,21 +11,28 @@ impl Database {
             Some(t) => {
                 let width = 16;
                 println!(
-                    "{:^4} | {:<width$} | {:<width$} | {:<60}",
-                    "ID", "Название", "Начата", "Завершена"
+                    "{:^4} | {:^width$} | {:^width$} | {:^8} | {:^60}",
+                    "ID",
+                    "Название".to_uppercase(),
+                    "Начата".to_uppercase(),
+                    "Статус".to_uppercase(),
+                    "Завершена".to_uppercase(),
                 );
                 println!(
-                    "{:-<4} | {:-<width$} | {:-<width$} | {:-<60}",
-                    "", "", "", ""
+                    "{:-<4} | {:-<width$} | {:-<width$} | {:-<8} | {:-<60}",
+                    "", "", "", "", ""
                 );
                 t.iter().for_each(|task| {
-                    println!(
-                        "{:>4} | {:<width$} | {:<width$} | {:<50}",
-                        task.id,
-                        task.created.format("%d-%m-%Y %H:%M").to_string(),
-                        task.ended.format("%d-%m-%Y %H:%M").to_string(),
-                        task.name,
-                    );
+                    if task.status == Status::New {
+                        println!(
+                            "{:>4} | {:<width$} | {:<width$} | {:^8} | {:<50}",
+                            task.id,
+                            task.created.format("%d-%m-%Y %H:%M").to_string(),
+                            task.ended.format("%d-%m-%Y %H:%M").to_string(),
+                            task.status.to_string(),
+                            task.name,
+                        );
+                    }
                 });
             }
             None => println!("Нет задач."),
@@ -60,6 +67,7 @@ impl Database {
             Some(ref mut t) => {
                 if let Some(task) = t.iter_mut().find(|task| task.id == id) {
                     task.ended = Utc::now();
+                    task.status = Status::Finished;
                     println!("Задача с id {} завершена.", id);
                     Self::save_tasks(&t);
                 } else {
