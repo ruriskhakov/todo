@@ -9,17 +9,22 @@ impl Database {
         let tasks = Self::get_tasks();
         match tasks {
             Some(t) => {
+                let width = 16;
                 println!(
-                    "{:<10} {:<50} {:<50} {:<50}",
+                    "{:^4} | {:<width$} | {:<width$} | {:<60}",
                     "ID", "Название", "Начата", "Завершена"
+                );
+                println!(
+                    "{:-<4} | {:-<width$} | {:-<width$} | {:-<60}",
+                    "", "", "", ""
                 );
                 t.iter().for_each(|task| {
                     println!(
-                        "{:<10} {:<50} {:<50} {:<50}",
+                        "{:>4} | {:<width$} | {:<width$} | {:<50}",
                         task.id,
-                        task.name,
                         task.created.format("%d-%m-%Y %H:%M").to_string(),
                         task.ended.format("%d-%m-%Y %H:%M").to_string(),
+                        task.name,
                     );
                 });
             }
