@@ -13,10 +13,10 @@ impl Database {
                 println!(
                     "{:^4} | {:^width$} | {:^width$} | {:^8} | {:^60}",
                     "ID",
-                    "Название".to_uppercase(),
-                    "Начата".to_uppercase(),
-                    "Статус".to_uppercase(),
+                    "Создана".to_uppercase(),
                     "Завершена".to_uppercase(),
+                    "Статус".to_uppercase(),
+                    "Название".to_uppercase(),
                 );
                 println!(
                     "{:-<4} | {:-<width$} | {:-<width$} | {:-<8} | {:-<60}",

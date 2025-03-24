@@ -27,7 +27,7 @@ pub(crate) struct Task {
 }
 
 impl Task {
-    pub(crate) fn new(id: u32, name: &str) -> Task {
+    pub fn new(id: u32, name: &str) -> Self {
         Task {
             id: id,
             name: name.to_lowercase(),
